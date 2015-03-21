@@ -1,13 +1,8 @@
 package io.mazenmc.skypebot.modules.generated;
 
-import com.skype.ChatMessage;
-import com.skype.SkypeException;
 import io.mazenmc.skypebot.engine.bot.Command;
 import io.mazenmc.skypebot.engine.bot.Module;
-import io.mazenmc.skypebot.utils.Resource;
 
-import java.util.Arrays;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ChipDev implements Module {
@@ -48,10 +43,10 @@ public class ChipDev implements Module {
     };
 
     @Command(name = "chipdev")
-    public static void cmdChipDev(ChatMessage chat) throws SkypeException {
+    public static String cmdChipDev(String message) {
         String sentence = SENTANCES[ThreadLocalRandom.current().nextInt(SENTANCES.length)];
 
-        Resource.sendMessage(chat, sentence);
+        return sentence;
     }
 
 }

@@ -1,7 +1,5 @@
 package io.mazenmc.skypebot.modules.generated;
 
-import com.skype.ChatMessage;
-import com.skype.SkypeException;
 import io.mazenmc.skypebot.engine.bot.Command;
 import io.mazenmc.skypebot.engine.bot.Module;
 import io.mazenmc.skypebot.utils.Resource;
@@ -9,7 +7,6 @@ import io.mazenmc.skypebot.utils.Resource;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Drama implements Module {
@@ -146,7 +143,7 @@ public class Drama implements Module {
     };
 
     @Command(name = "drama", cooldown = 15)
-    public static void cmdDrama(ChatMessage chat) throws SkypeException {
+    public static String cmdDrama(String message) {
         String sentence = sentences[ThreadLocalRandom.current().nextInt(Arrays.asList(sentences).size())];
 
         for (Map.Entry<String, String[]> s : data.entrySet()) {
@@ -155,7 +152,7 @@ public class Drama implements Module {
             }
         }
 
-        Resource.sendMessage(chat, sentence);
+        return sentence;
     }
 
 }

@@ -47,11 +47,6 @@ public class UpdateChecker extends Thread {
                     HttpsURLConnection c = (HttpsURLConnection) url.openConnection();
                     JSONObject commit = recentCommit.getJSONObject("commit");
 
-                    Resource.sendMessage("Found new commit: " +
-                            commit.getJSONObject("author").getString("name") + " - " +
-                            commit.getString("message") + " (" + sha + ")");
-                    Resource.sendMessage(recentCommit.getString("html_url"));
-
                     try (InputStream stream = c.getInputStream()) {
                         File f = new File("master.zip");
 
@@ -70,8 +65,6 @@ public class UpdateChecker extends Thread {
                     ZipFile zip = new ZipFile(new File("master.zip"));
 
                     zip.extractAll(System.getProperty("user.dir"));
-
-                    Resource.sendMessage("Set up local repository! Compiling...");
 
                     ProcessBuilder builder = new ProcessBuilder("/usr/bin/mvn", "clean", "compile", "assembly:single")
                             .redirectErrorStream(true).directory(output);
@@ -93,7 +86,7 @@ public class UpdateChecker extends Thread {
 
                         in.close();
 
-                        Resource.sendMessage("Whoops! Project did not compile correctly " + Utils.upload(lines));
+                        lines.forEach(System.out::println);
                         lastSha = sha;
                         continue;
                     }
@@ -113,18 +106,6 @@ public class UpdateChecker extends Thread {
                     fis.close();
                     fos.close();
                     process.destroy();
-
-                    Resource.sendMessage("Finished compiling! Restarting...");
-
-                    try {
-                        Thread.sleep(200L);
-                    } catch (InterruptedException ignored) {
-                    }
-
-                    try {
-                        Unirest.shutdown();
-                    } catch (IOException ignored) {
-                    }
 
                     System.exit(0);
                 } else {

@@ -1,15 +1,11 @@
 package io.mazenmc.skypebot.modules.generated;
 
-import com.skype.ChatMessage;
-import com.skype.SkypeException;
 import io.mazenmc.skypebot.engine.bot.Command;
 import io.mazenmc.skypebot.engine.bot.Module;
-import io.mazenmc.skypebot.utils.Resource;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-// TODO: MOAR
 public class BuzzFeed implements Module {
     private static HashMap<String, List<String>> data = new HashMap<String, List<String>>() {{
         put("emotion1", Arrays.asList("amazed", "shocked", "excited", "saddened", "happy", "bored"));
@@ -32,7 +28,7 @@ public class BuzzFeed implements Module {
     }};
 
     @Command(name = "buzzfeed", cooldown = 15)
-    public static void cmdBuzzFeed(ChatMessage chat) throws SkypeException {
+    public static String cmdBuzzFeed(String message) {
         String sentence = sentences.get(ThreadLocalRandom.current().nextInt(sentences.size()));
 
         for (Map.Entry<String, List<String>> s : data.entrySet()) {
@@ -41,7 +37,7 @@ public class BuzzFeed implements Module {
             }
         }
 
-        Resource.sendMessage(chat, sentence);
+        return sentence;
     }
 
 }

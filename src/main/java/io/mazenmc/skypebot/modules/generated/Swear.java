@@ -1,10 +1,7 @@
 package io.mazenmc.skypebot.modules.generated;
 
-import com.skype.ChatMessage;
-import com.skype.SkypeException;
 import io.mazenmc.skypebot.engine.bot.Command;
 import io.mazenmc.skypebot.engine.bot.Module;
-import io.mazenmc.skypebot.utils.Resource;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -16,7 +13,7 @@ public class Swear implements Module {
             {SwearType.gilles, SwearType.handelend}};
 
     @Command(name = "swear")
-    public static void cmdSwear(ChatMessage chat) throws SkypeException {
+    public static String cmdSwear(String message) {
         SwearType[] combination = combinations[ThreadLocalRandom.current().nextInt(combinations.length)];
         String output = "";
         for (SwearType s : combination) {
@@ -27,7 +24,7 @@ public class Swear implements Module {
             output += s.getRandomWord();
         }
 
-        Resource.sendMessage(chat, output.toUpperCase());
+        return output.toUpperCase();
     }
 
     public enum SwearType {

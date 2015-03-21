@@ -1,11 +1,7 @@
 package io.mazenmc.skypebot.utils;
 
 import com.google.common.base.Joiner;
-import com.mashape.unirest.http.Unirest;
-import com.skype.ChatMessage;
-import com.skype.SkypeException;
 import io.mazenmc.skypebot.Main;
-import io.mazenmc.skypebot.SkypeBot;
 import org.apache.commons.codec.digest.DigestUtils;
 import sun.misc.BASE64Encoder;
 
@@ -204,29 +200,6 @@ public class Utils {
         }
 
         return null;
-    }
-
-    public static void restartBot() {
-        SkypeBot.getInstance().getPrinter().pureSend("/me " + Resource.VERSION + " Restarting...");
-        System.out.println("Restarting...");
-
-        try {
-            Unirest.shutdown();
-        } catch (IOException ignored) {
-        }
-
-        System.exit(0);
-    }
-
-    public static String serializeMessage(ChatMessage message) {
-        String s = "";
-
-        try {
-            s += "[" + message.getTime().toString() + "] " + message.getSenderDisplayName() + ": " + message.getContent();
-        } catch (SkypeException ignored) {
-        }
-
-        return s;
     }
 
     public static String upload(Collection<String> s) {

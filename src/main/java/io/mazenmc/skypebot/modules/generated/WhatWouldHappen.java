@@ -1,14 +1,11 @@
 package io.mazenmc.skypebot.modules.generated;
 
-import com.skype.ChatMessage;
 import io.mazenmc.skypebot.engine.bot.Command;
 import io.mazenmc.skypebot.engine.bot.Module;
-import io.mazenmc.skypebot.utils.Resource;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class WhatWouldHappen implements Module {
 
@@ -116,7 +113,7 @@ public class WhatWouldHappen implements Module {
     }};
 
     @Command(name = "whatwouldhappen")
-    public static void whatWouldHappen(ChatMessage chat, String message) throws Exception {
+    public static String whatWouldHappen(String msg, String message) throws Exception {
         String option = OPTIONS[new Random().nextInt(OPTIONS.length)];
 
         for (Map.Entry<String, String[]> s : DATA.entrySet()) {
@@ -126,12 +123,8 @@ public class WhatWouldHappen implements Module {
                 option = option.replaceFirst("\\[" + s.getKey() + "\\]", s.getValue()[random.nextInt(s.getValue().length)]);
             }
         }
-        
-        String displayName = chat.getSenderDisplayName().replaceAll("[^A-Za-z0-9 ><.»«]", "");
-        
-        message = message.replaceAll("\\sI\\s/i", displayName).replaceAll("\\s(my|me)\\s/i", displayName + "'s");
 
-        Resource.sendMessage(chat, message + ", " + option);
+        return message + ", " + option;
     }
 
 }

@@ -1,7 +1,5 @@
 package io.mazenmc.skypebot.engine.bot;
 
-import com.skype.ChatMessage;
-import com.skype.SkypeException;
 import io.mazenmc.skypebot.SkypeBot;
 import io.mazenmc.skypebot.utils.Resource;
 import io.mazenmc.skypebot.utils.Utils;
@@ -24,40 +22,24 @@ public class ModuleManager {
 
     private static long lastCommand = 0L;
 
-    private static void executeCommand(ChatMessage chat, CommandData data, Matcher m) {
-        if (data.getCommand().admin()) {
-            try {
-                if (!Arrays.asList(Resource.GROUP_ADMINS).contains(chat.getSenderId())) {
-                    Resource.sendMessage(chat, "Access Denied!");
-                    return;
-                }
-            } catch (SkypeException ignored) {
-                return;
+    private static String executeCommand(String message, CommandData data, Matcher m) {
+        if (data.getCommand().cooldown() > 0) {
+            if (!SkypeBot.getInstance().getCooldownHandler().canUse(data.getCommand())) {
+                return "Command is cooling down! Time Left: " + SkypeBot.getInstance().getCooldownHandler().getCooldownLeft(data.getCommand().name());
             }
         }
 
-        try {
-            if (data.getCommand().cooldown() > 0 && !Arrays.asList(Resource.GROUP_ADMINS).contains(chat.getSenderId())) {
-                if (!SkypeBot.getInstance().getCooldownHandler().canUse(data.getCommand())) {
-                    Resource.sendMessage(chat, "Command is cooling down! Time Left: " + SkypeBot.getInstance().getCooldownHandler().getCooldownLeft(data.getCommand().name()));
-                    return;
-                }
-            }
+        long difference = System.currentTimeMillis() - lastCommand;
 
-            long difference = System.currentTimeMillis() - lastCommand;
-
-            if (difference <= 5000L) {
-                if (difference <= 4000L) {
-                    Resource.sendMessage(chat, "Woah, slow down there bud. Try again in " + TimeUnit.MILLISECONDS.toSeconds(2000L - difference) + " second(s)");
-                }
-                return;
+        if (difference <= 5000L) {
+            if (difference <= 4000L) {
+                return "Woah, slow down there bud. Try again in " + TimeUnit.MILLISECONDS.toSeconds(2000L - difference) + " second(s)";
             }
-        } catch (SkypeException e) {
-            e.printStackTrace();
+            return "";
         }
 
         List<Object> a = new ArrayList<>();
-        a.add(chat);
+        a.add(message);
 
         if (m.groupCount() > 0) {
             for (int i = 1; i <= m.groupCount(); i++) {
@@ -83,6 +65,7 @@ public class ModuleManager {
         }
 
         MethodAccessor methodAccessor = null;
+
         try {
             Field methodAccessorField = Method.class.getDeclaredField("methodAccessor");
             methodAccessorField.setAccessible(true);
@@ -96,15 +79,14 @@ public class ModuleManager {
                 lastCommand = System.currentTimeMillis();
             }
         } catch (NoSuchFieldException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e) {
-            Resource.sendMessage(chat, "Failed... (" + ExceptionUtils.getStackTrace(e) + ")");
+            return "Failed... (" + ExceptionUtils.getStackTrace(e) + ")";
         }
 
         try {
-            methodAccessor.invoke(null, a.toArray());
+            return (String) methodAccessor.invoke(null, a.toArray());
         } catch (Exception e) {
-            Resource.sendMessage(chat, "Failed... (" + Utils.upload(ExceptionUtils.getStackTrace(e)) + ")");
+            return "Failed... (" + Utils.upload(ExceptionUtils.getStackTrace(e)) + ")";
         }
-
     }
 
     public static HashMap<String, CommandData> getCommands() {
@@ -137,27 +119,19 @@ public class ModuleManager {
         }
     }
 
-    public static void parseText(ChatMessage chat) {
-        String command;
-        String originalCommand;
-        try {
-            command = chat.getContent();
-            originalCommand = chat.getContent();
-        } catch (SkypeException ignored) {
-            System.out.println("Skype exception occurred");
-            return;
-        }
+    public static String parseText(String message) {
+        String command = message;
 
         if (command == null) {
             System.out.println("Command is null");
-            return;
+            return null;
         }
 
         System.out.println("Received chat message: " + command);
 
         if (command.length() < 1) {
             System.out.println("low command length");
-            return;
+            return null;
         }
 
         if (command.startsWith(Resource.COMMAND_PREFIX)) {
@@ -168,7 +142,7 @@ public class ModuleManager {
 
         if (commandSplit.length == 0) {
             System.out.println("nothing");
-            return;
+            return null;
         }
 
         for (Map.Entry<String, CommandData> s : allCommands.entrySet()) {
@@ -186,12 +160,10 @@ public class ModuleManager {
             }
 
             Pattern r = Pattern.compile(match);
-            Matcher m = r.matcher(originalCommand);
+            Matcher m = r.matcher(command);
 
             if (m.find()) {
-                executeCommand(chat, s.getValue(), m);
-                System.out.println("executed command");
-                return;
+                return executeCommand(message, s.getValue(), m);
             } else if (!s.getValue().getParameterRegex(false).equals(s.getValue().getParameterRegex(true))) {
                 match = s.getKey();
                 if (!s.getValue().getParameterRegex(true).equals("")) {
@@ -207,10 +179,9 @@ public class ModuleManager {
                 }
 
                 r = Pattern.compile(match);
-                m = r.matcher(originalCommand);
+                m = r.matcher(command);
                 if (m.find()) {
-                    executeCommand(chat, s.getValue(), m);
-                    return;
+                    return executeCommand(message, s.getValue(), m);
                 }
             }
         }
@@ -225,21 +196,21 @@ public class ModuleManager {
             }
 
             if (c.command()) {
-                if (!originalCommand.startsWith(Resource.COMMAND_PREFIX)) {
-                    return;
+                if (!message.startsWith(Resource.COMMAND_PREFIX)) {
+                    return null;
                 }
 
                 correct = Resource.COMMAND_PREFIX + correct;
             }
 
-            Resource.sendMessage(chat, "Incorrect syntax: " + correct);
-
-            return;
+            return "Incorrect syntax: " + correct;
         }
 
-        if (originalCommand.startsWith(Resource.COMMAND_PREFIX)) {
-            Resource.sendMessage(chat, "Command '" + commandSplit[0] + "' not found!");
+        if (message.startsWith(Resource.COMMAND_PREFIX)) {
+            return "Command '" + commandSplit[0] + "' not found!";
         }
+
+        return null;
     }
 
 }
