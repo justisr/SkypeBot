@@ -249,4 +249,23 @@ public class General implements Module {
     public static String cmdLenny(String message) {
         return "( ͡° ͜ʖ ͡°)";
     }
+
+    @Command(name = "phallusexercise", alias = {"whatwouldjustissay"})
+    public static String cmddreamincode(String message) {
+        String[] options = new String[]{
+        		"Guys, Can confirm. Penis exersizes DO work.",
+        		"It's only been a week and there is a noticable difference.",
+        		"Excersizing my phallus.",
+        		"Any lady of mine is gunna feel real lucky.",
+        		"If only you guys were as passionate about giving your women pleasure.",
+        		"FYI, I have plenty of ladies.",
+        		"Any women will apreciate your effort. Knowing you care.",
+        		"I'm good at what I do. ;)",
+        		"I expect lots of cake!",
+        		"We could be sex buddies!!! Makin porn together!!"};
+        int chosen = ThreadLocalRandom.current().nextInt(options.length);
+
+        return options[chosen];
+    }
 }
+
