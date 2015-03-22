@@ -81,6 +81,8 @@ public class SkypeBot {
             response.put("data", data);
             return response.toString();
         });
+
+        new UpdateChecker().start();
     }
 
     public static SkypeBot getInstance() {

@@ -83,7 +83,7 @@ public class ModuleManager {
         }
 
         try {
-            return (String) methodAccessor.invoke(null, a.toArray());
+            return methodAccessor.invoke(null, a.toArray()) + " #bot";
         } catch (Exception e) {
             return "Failed... (" + Utils.upload(ExceptionUtils.getStackTrace(e)) + ")";
         }
@@ -123,14 +123,10 @@ public class ModuleManager {
         String command = message;
 
         if (command == null) {
-            System.out.println("Command is null");
             return null;
         }
 
-        System.out.println("Received chat message: " + command);
-
         if (command.length() < 1) {
-            System.out.println("low command length");
             return null;
         }
 
@@ -141,11 +137,8 @@ public class ModuleManager {
         String[] commandSplit = command.split(" ");
 
         if (commandSplit.length == 0) {
-            System.out.println("nothing");
             return null;
         }
-
-        System.out.println("reading with " + command);
 
         for (Map.Entry<String, CommandData> s : allCommands.entrySet()) {
             String match = s.getKey();

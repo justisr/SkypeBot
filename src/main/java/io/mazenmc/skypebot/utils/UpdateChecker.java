@@ -32,7 +32,7 @@ public class UpdateChecker extends Thread {
             }
 
             try {
-                HttpResponse<JsonNode> response = Unirest.get("https://api.github.com/repos/MazenMC/SkypeBot/commits?page=1" +
+                HttpResponse<JsonNode> response = Unirest.get("https://api.github.com/repos/MazenMC/SkypeBot/commits?sha=web-port" +
                         "&access_token=" + accessToken)
                         .header("User-Agent", "Mazen-SkypeBot")
                         .header("Content-Type", "application/json")
@@ -43,26 +43,25 @@ public class UpdateChecker extends Thread {
                 String sha = recentCommit.getString("sha");
 
                 if (!lastSha.equals(sha) && !lastSha.equals("--")) {
-                    URL url = new URL("https://github.com/MazenMC/SkypeBot/archive/master.zip");
+                    URL url = new URL("https://github.com/MazenMC/SkypeBot/archive/web-port.zip");
                     HttpsURLConnection c = (HttpsURLConnection) url.openConnection();
-                    JSONObject commit = recentCommit.getJSONObject("commit");
 
                     try (InputStream stream = c.getInputStream()) {
-                        File f = new File("master.zip");
+                        File f = new File("web-port.zip");
 
                         if (f.exists())
                             f.delete();
 
-                        Files.copy(stream, Paths.get("master.zip"));
+                        Files.copy(stream, Paths.get("web-port.zip"));
                         stream.close();
                     }
 
-                    File output = new File("SkypeBot-master");
+                    File output = new File("SkypeBot-web-port");
 
                     if (output.exists())
                         output.delete();
 
-                    ZipFile zip = new ZipFile(new File("master.zip"));
+                    ZipFile zip = new ZipFile(new File("web-port.zip"));
 
                     zip.extractAll(System.getProperty("user.dir"));
 
@@ -111,7 +110,8 @@ public class UpdateChecker extends Thread {
                 } else {
                     lastSha = sha;
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

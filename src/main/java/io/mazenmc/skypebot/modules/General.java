@@ -47,8 +47,8 @@ public class General implements Module {
     }
 
     @Command(name = "bot")
-    public static String cmdBot(String message) {
-        return message;
+    public static String cmdBot(String message, String msg) {
+        return msg;
     }
 
     @Command(name = "choice")
@@ -63,7 +63,7 @@ public class General implements Module {
     }
 
     @Command(name = "c")
-    public static String cmdC(String question) {
+    public static String cmdC(String message, String question) {
         return SkypeBot.getInstance().askQuestion(question);
     }
 
