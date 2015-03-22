@@ -46,6 +46,8 @@ public class UpdateChecker extends Thread {
                     URL url = new URL("https://github.com/MazenMC/SkypeBot/archive/web-port.zip");
                     HttpsURLConnection c = (HttpsURLConnection) url.openConnection();
 
+                    System.out.println("Found new commit! Downloading source...");
+
                     try (InputStream stream = c.getInputStream()) {
                         File f = new File("web-port.zip");
 
@@ -56,6 +58,8 @@ public class UpdateChecker extends Thread {
                         stream.close();
                     }
 
+                    System.out.println("Downloaded source! extracting jar...");
+
                     File output = new File("SkypeBot-web-port");
 
                     if (output.exists())
@@ -65,11 +69,15 @@ public class UpdateChecker extends Thread {
 
                     zip.extractAll(System.getProperty("user.dir"));
 
+                    System.out.println("Extracted jar! Compiling source...");
+
                     ProcessBuilder builder = new ProcessBuilder("/usr/bin/mvn", "clean", "compile", "assembly:single")
                             .redirectErrorStream(true).directory(output);
                     Process process = builder.start();
 
                     process.waitFor();
+
+                    System.out.print("Compiled source!");
 
                     File compiled = new File(output, "target/skypebot-1.0-SNAPSHOT-jar-with-dependencies.jar");
                     File current = new File("skypebot-1.0-SNAPSHOT-jar-with-dependencies.jar");
@@ -85,6 +93,7 @@ public class UpdateChecker extends Thread {
 
                         in.close();
 
+                        System.out.println("error! printing stacktrace...");
                         lines.forEach(System.out::println);
                         lastSha = sha;
                         continue;
@@ -106,6 +115,7 @@ public class UpdateChecker extends Thread {
                     fos.close();
                     process.destroy();
 
+                    System.out.println("bye bye...");
                     System.exit(0);
                 } else {
                     lastSha = sha;
