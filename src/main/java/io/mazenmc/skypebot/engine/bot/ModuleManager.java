@@ -145,6 +145,8 @@ public class ModuleManager {
             return null;
         }
 
+        System.out.println("reading with " + command);
+
         for (Map.Entry<String, CommandData> s : allCommands.entrySet()) {
             String match = s.getKey();
             if (!s.getValue().getParameterRegex(false).equals("")) {
@@ -152,7 +154,7 @@ public class ModuleManager {
             }
 
             if (s.getValue().getCommand().command()) {
-                match = Resource.COMMAND_PREFIX + match;
+                match = "\\" + Resource.COMMAND_PREFIX + match;
             }
 
             if (s.getValue().getCommand().exact()) {
@@ -171,7 +173,7 @@ public class ModuleManager {
                 }
 
                 if (s.getValue().getCommand().command()) {
-                    match = Resource.COMMAND_PREFIX + match;
+                    match = "\\" + Resource.COMMAND_PREFIX + match;
                 }
 
                 if (s.getValue().getCommand().exact()) {

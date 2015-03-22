@@ -15,6 +15,7 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -62,10 +63,12 @@ public class SkypeBot {
 
         cooldownHandler = new CooldownHandler();
 
-        get("/bot", (req, res) -> {
+        setPort(80);
+
+        get("/bot/:message", (req, res) -> {
             JSONObject response = new JSONObject();
 
-            String data = ModuleManager.parseText(req.params("message"));
+            String data = ModuleManager.parseText(URLDecoder.decode(req.params("message")));
 
             if (data == null) {
                 response.put("type", -1);
