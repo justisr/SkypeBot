@@ -42,6 +42,8 @@ public class UpdateChecker extends Thread {
                 JSONObject recentCommit = node.getArray().getJSONObject(0);
                 String sha = recentCommit.getString("sha");
 
+                System.out.println("looked for commits");
+
                 if (!lastSha.equals(sha) && !lastSha.equals("--")) {
                     URL url = new URL("https://github.com/MazenMC/SkypeBot/archive/web-port.zip");
                     HttpsURLConnection c = (HttpsURLConnection) url.openConnection();
