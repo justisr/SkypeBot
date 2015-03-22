@@ -153,10 +153,6 @@ public class ModuleManager {
                 match += " " + s.getValue().getParameterRegex(false);
             }
 
-            if (s.getValue().getCommand().command()) {
-                match = "\\" + Resource.COMMAND_PREFIX + match;
-            }
-
             if (s.getValue().getCommand().exact()) {
                 match = "^" + match + "$";
             }
@@ -170,10 +166,6 @@ public class ModuleManager {
                 match = s.getKey();
                 if (!s.getValue().getParameterRegex(true).equals("")) {
                     match += " " + s.getValue().getParameterRegex(true);
-                }
-
-                if (s.getValue().getCommand().command()) {
-                    match = "\\" + Resource.COMMAND_PREFIX + match;
                 }
 
                 if (s.getValue().getCommand().exact()) {
