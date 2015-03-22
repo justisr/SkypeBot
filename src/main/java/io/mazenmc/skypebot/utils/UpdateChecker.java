@@ -79,7 +79,7 @@ public class UpdateChecker extends Thread {
 
                     process.waitFor();
 
-                    System.out.print("Compiled source!");
+                    System.out.println("Compiled source!");
 
                     File compiled = new File(output, "target/skypebot-1.0-SNAPSHOT-jar-with-dependencies.jar");
                     File current = new File("skypebot-1.0-SNAPSHOT-jar-with-dependencies.jar");
