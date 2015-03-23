@@ -251,7 +251,7 @@ public class General implements Module {
     }
 
     @Command(name = "phallusexercise", alias = {"whatwouldjustissay"})
-    public static String cmddreamincode(String message) {
+    public static String cmdphallusexercise(String message) {
         String[] options = new String[]{
         		"Guys, Can confirm. Penis exersizes DO work.",
         		"It's only been a week and there is a noticable difference.",
