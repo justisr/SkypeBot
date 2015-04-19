@@ -1,11 +1,7 @@
 package io.mazenmc.skypebot.modules;
 
 import io.mazenmc.skypebot.SkypeBot;
-import io.mazenmc.skypebot.engine.bot.Command;
-import io.mazenmc.skypebot.engine.bot.CommandData;
-import io.mazenmc.skypebot.engine.bot.Module;
-import io.mazenmc.skypebot.engine.bot.ModuleManager;
-import io.mazenmc.skypebot.engine.bot.Optional;
+import io.mazenmc.skypebot.engine.bot.*;
 import io.mazenmc.skypebot.utils.Resource;
 import io.mazenmc.skypebot.utils.Utils;
 
@@ -13,6 +9,7 @@ import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -238,6 +235,33 @@ public class General implements Module {
         int chosen = ThreadLocalRandom.current().nextInt(options.length);
 
         return options[chosen];
+    }
+
+    @Command(name = "nice", exact = false, command = false)
+    public static String nice(String message) {
+        return "https://www.youtube.com/watch?v=zYt0WbDjJ4E";
+    }
+
+    @Command(name = "ayy", exact = false, command = false)
+    public static String ayy(String message) {
+        return "lmao";
+    }
+
+    @Command(name = "alien", exact = false, command = false)
+    public static String ayyLmao(String message) {
+        return "ayy lmao";
+    }
+
+    @Command(name = "whatwouldrandomsay")
+    public static String cmdRandomSay(String msg) {
+        List<Message> messages = SkypeBot.getInstance().messages();
+        Message message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
+
+        while (message.contents().startsWith("/")) {
+            message = messages.get(ThreadLocalRandom.current().nextInt(messages.size()));
+        }
+
+        return message.sender() + " says: \"" + message.contents() + "\" ";
     }
 
     @Command(name = "roflcopter", alias = {"rofl"})

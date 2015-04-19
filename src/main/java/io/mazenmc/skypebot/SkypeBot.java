@@ -5,6 +5,7 @@ import static spark.Spark.*;
 import com.google.code.chatterbotapi.ChatterBotFactory;
 import com.google.code.chatterbotapi.ChatterBotSession;
 import com.google.code.chatterbotapi.ChatterBotType;
+import io.mazenmc.skypebot.engine.bot.Message;
 import io.mazenmc.skypebot.engine.bot.ModuleManager;
 import io.mazenmc.skypebot.handler.CooldownHandler;
 import io.mazenmc.skypebot.utils.UpdateChecker;
@@ -19,8 +20,10 @@ import java.net.URLDecoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class SkypeBot {
 
@@ -31,9 +34,12 @@ public class SkypeBot {
     private boolean locked = false;
     private UpdateChecker updateChecker;
     private CooldownHandler cooldownHandler;
+    private Pattern imagePattern;
+    private List<Message> messages = new ArrayList<>();
 
     public SkypeBot() {
         instance = this;
+        imagePattern = Pattern.compile("([^\\s]+(\\.(jpg|png|jpeg))$)");
 
         try {
             bot = new ChatterBotFactory().create(ChatterBotType.CLEVERBOT).createSession();
@@ -65,14 +71,15 @@ public class SkypeBot {
 
         setPort(80);
 
-        get("/bot/:message", (req, res) -> {
+        get("/bot/:sender/:message", (req, res) -> {
             JSONObject response = new JSONObject();
-
             String data = ModuleManager.parseText(URLDecoder.decode(req.params("message")));
+
+            messages.add(new Message(req.params("sender"), req.params("message")));
 
             if (data == null) {
                 response.put("type", -1);
-            } else if (data.startsWith("http")) {
+            } else if (imagePattern.matcher(data).find()) {
                 response.put("type", 2);
             } else {
                 response.put("type", 1);
@@ -107,6 +114,10 @@ public class SkypeBot {
 
     public Connection getDatabase() {
         return database;
+    }
+
+    public List<Message> messages() {
+        return messages;
     }
 
     public Twitter getTwitter() {
