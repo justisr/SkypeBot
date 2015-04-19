@@ -244,6 +244,9 @@ public class General implements Module {
 
     @Command(name = "ayy", exact = false, command = false)
     public static String ayy(String message) {
+        if (message.contains("lmao"))
+            return "ayy lmao";
+
         return "lmao";
     }
 
