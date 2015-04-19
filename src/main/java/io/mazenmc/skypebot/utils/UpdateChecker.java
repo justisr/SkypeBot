@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdateChecker extends Thread {
-
     private String lastSha = "--";
     private String accessToken;
 
