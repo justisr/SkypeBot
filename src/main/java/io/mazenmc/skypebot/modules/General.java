@@ -237,12 +237,12 @@ public class General implements Module {
         return options[chosen];
     }
 
-    @Command(name = "nice", exact = false, command = false)
+    @Command(name = "(?i)nice", exact = false, command = false)
     public static String nice(String message) {
         return "https://www.youtube.com/watch?v=zYt0WbDjJ4E";
     }
 
-    @Command(name = "ayy", exact = false, command = false)
+    @Command(name = "(?i)ayy", exact = false, command = false)
     public static String ayy(String message) {
         if (message.contains("lmao"))
             return "ayy lmao";
@@ -250,7 +250,7 @@ public class General implements Module {
         return "lmao";
     }
 
-    @Command(name = "alien", exact = false, command = false)
+    @Command(name = "(?i)alien", exact = false, command = false)
     public static String ayyLmao(String message) {
         return "ayy lmao";
     }
