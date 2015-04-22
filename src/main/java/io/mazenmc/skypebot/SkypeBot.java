@@ -73,7 +73,7 @@ public class SkypeBot {
 
         get("/bot/:sender/:message", (req, res) -> {
             JSONObject response = new JSONObject();
-            String message = URLDecoder.decode(req.params("message");
+            String message = URLDecoder.decode(req.params("message"));
             String data = ModuleManager.parseText(message));
 
             messages.add(new Message(req.params("sender"), message));
