@@ -49,7 +49,7 @@ public class General implements Module {
     }
 
     @Command(name = "choice")
-    public static String choice(String message) {
+    public static String choice(String m, String message) {
         String[] choices = message.trim().split(",");
 
         if (choices.length == 1) {
