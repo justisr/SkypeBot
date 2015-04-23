@@ -130,6 +130,10 @@ public class ModuleManager {
             return null;
         }
 
+        if (command.startsWith(Resource.COMMAND_PREFIX)) {
+            command = command.substring(1);
+        }
+
         String[] commandSplit = command.split(" ");
 
         if (commandSplit.length == 0) {
@@ -158,7 +162,7 @@ public class ModuleManager {
                 return executeCommand(message, s.getValue(), m);
             } else if (!s.getValue().getParameterRegex(false).equals(s.getValue().getParameterRegex(true))) {
                 match = s.getKey();
-                
+
                 if (s.getValue().getCommand().command()) {
                     match += Resource.COMMAND_PREFIX;
                 }
