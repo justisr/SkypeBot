@@ -130,6 +130,10 @@ public class ModuleManager {
             return null;
         }
 
+        if (!command.startsWith(Resource.COMMAND_PREFIX)) {
+            return null;
+        }
+
         if (command.startsWith(Resource.COMMAND_PREFIX)) {
             command = command.substring(1);
         }
