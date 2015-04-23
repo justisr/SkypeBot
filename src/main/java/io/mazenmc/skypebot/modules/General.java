@@ -237,7 +237,7 @@ public class General implements Module {
         return options[chosen];
     }
 
-    @Command(name = "(?i)nice", command = false)
+    @Command(name = "nice", command = false)
     public static String nice(String message) {
         return "https://www.youtube.com/watch?v=zYt0WbDjJ4E";
     }
@@ -292,7 +292,13 @@ public class General implements Module {
         		"We could be sex buddies!!! Makin porn together!!",
         		"All our sex toys are made from 100% ultra-premium custom forumulated silicone; garenteed to last a lifetime.",
         		"Easy To Clean, Eco-Friendly, Hypoallergenic, Hygienic, Boilable, Bleachable and Dishwasher Safe. ;D",
-        		"Just in case you ever wanted to wash your vibrator with your eating utensils. I know I do."};
+        		"Just in case you ever wanted to wash your vibrator with your eating utensils. I know I do.",
+                "When it comes to being pathetic, I'm rank #1.",
+                "Me, my best friend, and my second best friend are all moving to oregon when we older. We're gunna have a farm. ;)",
+                "Oi, I fell in love with a non-existant girl from a lucid dream.",
+                "What are arrays?",
+                "So, arrays are like worse Lists!?!?!?"
+        };
         int chosen = ThreadLocalRandom.current().nextInt(options.length);
 
         return options[chosen];
