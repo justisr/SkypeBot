@@ -143,10 +143,6 @@ public class ModuleManager {
         for (Map.Entry<String, CommandData> s : allCommands.entrySet()) {
             String match = s.getKey();
 
-            if (s.getValue().getCommand().command()) {
-                match += Resource.COMMAND_PREFIX;
-            }
-
             if (!s.getValue().getParameterRegex(false).equals("")) {
                 match += " " + s.getValue().getParameterRegex(false);
             }
@@ -162,10 +158,6 @@ public class ModuleManager {
                 return executeCommand(message, s.getValue(), m);
             } else if (!s.getValue().getParameterRegex(false).equals(s.getValue().getParameterRegex(true))) {
                 match = s.getKey();
-
-                if (s.getValue().getCommand().command()) {
-                    match += Resource.COMMAND_PREFIX;
-                }
 
                 if (!s.getValue().getParameterRegex(true).equals("")) {
                     match += " " + s.getValue().getParameterRegex(true);
