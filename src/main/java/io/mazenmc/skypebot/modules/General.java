@@ -237,7 +237,7 @@ public class General implements Module {
         return options[chosen];
     }
 
-    @Command(name = "nice", command = false)
+    @Command(name = "(?i)nice", command = false)
     public static String nice(String message) {
         return "https://www.youtube.com/watch?v=zYt0WbDjJ4E";
     }
