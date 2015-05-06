@@ -297,7 +297,8 @@ public class General implements Module {
                 "Me, my best friend, and my second best friend are all moving to oregon when we older. We're gunna have a farm. ;)",
                 "Oi, I fell in love with a non-existant girl from a lucid dream.",
                 "What are arrays?",
-                "So, arrays are like worse Lists!?!?!?"
+                "So, arrays are like worse Lists!?!?!?",
+                "To really learn a language, you have to experience it."
         };
         int chosen = ThreadLocalRandom.current().nextInt(options.length);
 
