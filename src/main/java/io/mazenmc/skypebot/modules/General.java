@@ -237,11 +237,6 @@ public class General implements Module {
         return options[chosen];
     }
 
-    @Command(name = "(?i)nice", command = false)
-    public static String nice(String message) {
-        return "https://www.youtube.com/watch?v=zYt0WbDjJ4E";
-    }
-
     @Command(name = "(?i)ayy", exact = false, command = false)
     public static String ayy(String message) {
         if (message.contains("lmao"))
