@@ -66,7 +66,7 @@ public class General implements Module {
 
     @Command(name = "git", alias = {"repo", "repository", "source"})
     public static String cmdGit(String message) {
-        return "Git Repository: https://github.com/MazenMC/SkypeBot/tree/web-port";
+        return "Git Repository: https://github.com/mkotb/SkypeBot/tree/web-port";
     }
 
     @Command(name = "help", alias = {"commands"})
