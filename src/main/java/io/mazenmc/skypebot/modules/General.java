@@ -43,11 +43,6 @@ public class General implements Module {
                 "Version: " + Resource.VERSION;
     }
 
-    @Command(name = "bot")
-    public static String cmdBot(String message, String msg) {
-        return msg;
-    }
-
     @Command(name = "choice")
     public static String choice(String m, String message) {
         String[] choices = message.trim().split(",");
