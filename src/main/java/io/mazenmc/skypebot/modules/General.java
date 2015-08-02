@@ -193,7 +193,10 @@ public class General implements Module {
 
         Resource.sendMessage("---------------------------------------");
 
-        Resource.sendMessage(total + " total messages sent in this chat (which has been logged by the bot)");
+        DecimalFormat dFormat = new DecimalFormat();
+        dFormat.setDecimalSeparatorAlwaysShown(false);
+        
+        Resource.sendMessage(dFormat.format(total) + " total messages sent in this chat (which has been logged by the bot)");
         Resource.sendMessage(messages.size() + " members sent messages which were acknowledged by the bot");
 
         List<List<String>> raw = messages.stream()
@@ -209,10 +212,10 @@ public class General implements Module {
         long characters = msgs.stream()
                 .mapToLong(String::length)
                 .sum();
-
+        
         Resource.sendMessage(Math.round(((commands / total) * 100)) + "% of those messages were commands");
         Resource.sendMessage(characters + " characters were sent");
-        Resource.sendMessage(commands + " commands were sent");
+        Resource.sendMessage(dFormat.format(commands) + " commands were sent");
     }
 
     @Command(name = "md5")
