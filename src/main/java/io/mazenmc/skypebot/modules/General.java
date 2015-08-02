@@ -212,7 +212,7 @@ public class General implements Module {
         long characters = msgs.stream()
                 .mapToLong(String::length)
                 .sum();
-        
+
         Resource.sendMessage(Math.round(((commands / total) * 100)) + "% of those messages were commands");
         Resource.sendMessage(characters + " characters were sent");
         Resource.sendMessage(dFormat.format(commands) + " commands were sent");
